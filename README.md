@@ -27,7 +27,7 @@ class Fraction():
         if isinstance(other, Fraction):
             return Fraction(self.numerator * other.numerator, self.denominator * other.denominator)
         elif isinstance(other, int):
-            return Fraction(self.numerator * other, self.denominator * other)
+            return Fraction(self.numerator * other, self.denominator)
         raise TypeError ("Неподдерживаемый тип")
 
     def __truediv__(self, other):
@@ -36,7 +36,9 @@ class Fraction():
                 raise ValueError("Числитель второй дроби не может быть равен 0")
             return Fraction(self.numerator * other.denominator, self.denominator * other.numerator)
         elif isinstance(other, int):
-            return Fraction(self.numerator, self.denominator * other)
+            if other != 0:
+                return Fraction(self.numerator, self.denominator * other)
+            raise ZeroDivisionError("Деление на ноль запрещено")
         raise TypeError("Неподдерживаемый тип")
 
     def __pow__(self, other):
@@ -89,5 +91,6 @@ try:
     print(f"Результат: {result}")
 except ValueError as e:
     print(f"Ошибка ввода: {e}")
+
 
 ```
