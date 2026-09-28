@@ -13,7 +13,7 @@ class Fraction():
             raise ValueError("Знаменатель не может быть равен 0")
         denominator = abs(denominator)
 
-        g = math.gcd((abs(numerator), denominator)
+        g = math.gcd(abs(numerator), denominator)
         self.numerator = numerator // g
         self.denominator = denominator // g
 
@@ -27,7 +27,8 @@ class Fraction():
         if isinstance(other, Fraction):
             return Fraction(self.numerator * other.numerator, self.denominator * other.denominator)
         elif isinstance(other, int):
-            return Fraction(self.numerator * other, self.denominator)
+            other = Fraction(other,1)
+            return Fraction(self.numerator * other.numerator, self.denominator * other.denominator)
         raise TypeError ("Неподдерживаемый тип")
 
     def __truediv__(self, other):
@@ -36,8 +37,9 @@ class Fraction():
                 raise ValueError("Числитель второй дроби не может быть равен 0")
             return Fraction(self.numerator * other.denominator, self.denominator * other.numerator)
         elif isinstance(other, int):
-            if other != 0:
-                return Fraction(self.numerator, self.denominator * other)
+            other = Fraction(other,1)
+            if other.numerator != 0:
+                return Fraction(self.numerator, self.denominator * other.numerator)
             raise ZeroDivisionError("Деление на ноль запрещено")
         raise TypeError("Неподдерживаемый тип")
 
@@ -53,8 +55,6 @@ class Fraction():
     def __str__ (self):
         if self.numerator == 0:
             return "0"
-        if self.denominator == 1:
-            return str(self.numerator)
         if abs(self.numerator) > self.denominator:
             digit = abs(self.numerator)//self.denominator
             remainder = abs(self.numerator)%self.denominator
@@ -89,8 +89,6 @@ try:
     else:
         raise ValueError ("Операция не поддерживается")
     print(f"Результат: {result}")
-except ValueError as e:
+except (ValueError,TypeError,ZeroDivisionError) as e:
     print(f"Ошибка ввода: {e}")
-
-
 ```
