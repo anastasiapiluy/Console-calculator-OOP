@@ -13,7 +13,7 @@ class Fraction():
             raise ValueError("Знаменатель не может быть равен 0")
         denominator = abs(denominator)
 
-        g = math.gcd(numerator, denominator)
+        g = math.gcd((abs(numerator), denominator)
         self.numerator = numerator // g
         self.denominator = denominator // g
 
